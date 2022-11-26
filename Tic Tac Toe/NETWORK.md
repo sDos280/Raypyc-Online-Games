@@ -10,22 +10,22 @@ the network class will be the connector object (that receive/send data) for the 
 
 the NetworkType class is an enum of all the Action/Data that the Network transform/get
 
-| Type Name       | summery                                                                                               |
-|:----------------|:------------------------------------------------------------------------------------------------------|
-| CONNECT         | just send some data that said like "a connection from (MyIp)" [^note1]                                |
-| DISCONNECT      | send the hash of the this player so the server can disconnect/unload this player from the server data |
-| SET_PLAYER      | send data of a Player (a Player class) to be set in the server                                        |
-| GET_PLAYERS     | get data of the players (a dict keys: player_hash, values: Player )                                   |
-| PLAYERS         | a dict keys:player_hash, values:Player                                                                |
-| SET_CELL        | send the data of the cell that the client what to change (row: int, column: int, number: int)         |
-| GET_TURN        | get the turn of the game. if True it is X turn if False it is O turn                                  |  
-| GET_PLAYER_TURN | get the player turn so the client will know if he o ot x                                              |
-| TURN_X          | data of a turn. if True it is X turn if False it is O turn                                            |
-| GET_BOARD       | ask the server to return the current board                                                            |
-| RESET_GAME      | ask the server to reset the game                                                                      |
-| BOARD           | 2d list of board data                                                                                 |
-| WHO_IS_WINNING  | ask the server to return the current winner                                                           |
-| HOW_WIN         | a how win value, an integer. if 3 that means that o won, if -3 that means x won, else no one won      |
+| Type Name       | summery                                                                                                            |
+|:----------------|:-------------------------------------------------------------------------------------------------------------------|
+| CONNECT         | just send some data that said like "a connection from (MyIp)" [^note1]                                             |
+| DISCONNECT      | send the hash of the this player so the server can disconnect/unload this player from the server data              |
+| SET_PLAYER      | send data of a Player (a Player class) to be set in the server                                                     |
+| GET_PLAYERS     | get data of the players (a dict keys: player_hash, values: Player )                                                |
+| PLAYERS         | a dict keys:player_hash, values:Player                                                                             |
+| SET_CELL        | send the data of the cell that the client what to change (row: int, column: int, number: int)                      |
+| GET_TURN        | get the turn of the game. if True it is X turn if False it is O turn                                               |  
+| GET_PLAYER_TURN | get the player turn so the client will know if he o ot x                                                           |
+| TURN_X          | data of a turn. if True it is X turn if False it is O turn                                                         |
+| GET_BOARD       | ask the server to return the current board                                                                         |
+| RESET_GAME      | ask the server to reset the game                                                                                   |
+| BOARD           | 2d list of board data                                                                                              |
+| WHO_IS_WINNING  | ask the server to return the current winner                                                                        |
+| HOW_WIN         | a how win value, an integer. if 3 that means o won, if -3 that means x won, if 33 that means draw, else no one won |
 
 
 [^note1]: we need to send this message so the server will know that this ip is connected to the game.
