@@ -73,7 +73,7 @@ while True:
                         board[int(data_content[0])][int(data_content[1])] = -1
                     else:  # o turn
                         board[int(data_content[0])][int(data_content[1])] = 1
-                turn_x = not turn_x
+                    turn_x = not turn_x
         case network.NetworkTypes.GET_TURN:
             server_sock.sendto(pickle.dumps([network.NetworkTypes.TURN_X, turn_x]), address)
         case network.NetworkTypes.GET_PLAYER_TURN:
