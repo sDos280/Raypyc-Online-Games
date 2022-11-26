@@ -23,7 +23,12 @@ def who_wins(_board):
             value += _board[check[i][0]][check[i][1]]
         if abs(value) == 3:  # if value equal to -3 or 3
             return value
-    return value
+
+    for i in range(3):
+        for j in range(3):
+            if _board[i][j] == 0:  # if the board isn't filled
+                return value
+    return 33  # draw
 
 
 server_ip = "10.0.0.22"

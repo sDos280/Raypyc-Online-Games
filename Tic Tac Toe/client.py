@@ -97,6 +97,20 @@ def main():
                                     raypyc.Vector2(0, 0),
                                     0,
                                     raypyc.WHITE)
+        elif current_winner == 33:
+            raypyc.draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, raypyc.RAYWHITE)
+            raypyc.draw_texture_pro(x_sprite,
+                                    raypyc.Rectangle(0, 0, 16, 16),
+                                    raypyc.Rectangle(SCREEN_WIDTH / 2 - TILE_WIDTH * 2 - 10, SCREEN_HEIGHT / 2 - TILE_HEIGHT, TILE_WIDTH * 2, TILE_HEIGHT * 2),
+                                    raypyc.Vector2(0, 0),
+                                    0,
+                                    raypyc.WHITE)
+            raypyc.draw_texture_pro(o_sprite,
+                                    raypyc.Rectangle(0, 0, 16, 16),
+                                    raypyc.Rectangle(SCREEN_WIDTH / 2 + 10, SCREEN_HEIGHT / 2 - TILE_HEIGHT, TILE_WIDTH * 2, TILE_HEIGHT * 2),
+                                    raypyc.Vector2(0, 0),
+                                    0,
+                                    raypyc.WHITE)
 
         raypyc.end_drawing()
 
