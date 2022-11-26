@@ -34,7 +34,17 @@ def main():
                 BOARD_START_DRAW_Y < mouse_position.y <= BOARD_START_DRAW_Y + TILE_HEIGHT * 3:
             over_cell[0] = (mouse_position.y - BOARD_START_DRAW_Y) // TILE_HEIGHT
             over_cell[1] = (mouse_position.x - BOARD_START_DRAW_X) // TILE_WIDTH
-            print(over_cell)
+            if raypyc.is_mouse_button_pressed(0):
+                net.sendto_server(pickle.dumps([network.NetworkTypes.SET_CELL, [over_cell[0], over_cell[1], this_player.is_x]]))  # send this player data to the server
+        else:
+            over_cell = [-1, -1]
+
+        net.sendto_server(pickle.dumps([network.NetworkTypes.GET_BOARD, ""]))
+        current_board = pickle.loads(net.recv(1024))[1]  # receive current board
+
+        net.sendto_server(pickle.dumps([network.NetworkTypes.WHO_IS_WINNING, ""]))
+        current_winner = pickle.loads(net.recv(1024))[1]  # receive current winner
+
         raypyc.begin_drawing()
 
         raypyc.clear_background(raypyc.RAYWHITE)
@@ -47,6 +57,20 @@ def main():
             raypyc.draw_line_ex(raypyc.Vector2(BOARD_START_DRAW_X, BOARD_START_DRAW_Y + TILE_HEIGHT * i),
                                 raypyc.Vector2(BOARD_START_DRAW_X + 3 * TILE_WIDTH, BOARD_START_DRAW_Y + TILE_HEIGHT * i),
                                 5, raypyc.BLACK)  # horizontal lines
+
+        for i in range(3):
+            for j in range(3):
+                if current_board[i][j] == -1:
+                    raypyc.draw_rectangle(BOARD_START_DRAW_X + TILE_WIDTH * j, BOARD_START_DRAW_Y + TILE_HEIGHT * i, TILE_WIDTH, TILE_HEIGHT, raypyc.GREEN)
+                elif current_board[i][j] == 1:
+                    raypyc.draw_rectangle(BOARD_START_DRAW_X + TILE_WIDTH * j, BOARD_START_DRAW_Y + TILE_HEIGHT * i, TILE_WIDTH, TILE_HEIGHT, raypyc.RED)
+
+        if current_winner == -3:
+            raypyc.clear_background(raypyc.RAYWHITE)
+            raypyc.draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, raypyc.GREEN)
+        elif current_winner == 3:
+            raypyc.clear_background(raypyc.RAYWHITE)
+            raypyc.draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, raypyc.RED)
 
         raypyc.end_drawing()
 

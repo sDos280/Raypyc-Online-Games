@@ -12,6 +12,10 @@ class NetworkTypes(enum.IntEnum):
     GET_TURN = enum.auto()
     GET_PLAYER_TURN = enum.auto()
     TURN_X = enum.auto()
+    GET_BOARD = enum.auto()
+    BOARD = enum.auto()
+    WHO_IS_WINNING = enum.auto()
+    HOW_WIN = enum.auto()
 
 
 class Network:
