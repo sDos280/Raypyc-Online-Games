@@ -18,6 +18,9 @@ def main():
 
     raypyc.init_window(SCREEN_WIDTH, SCREEN_HEIGHT, b"Tic Tac Toe")
 
+    x_sprite = raypyc.load_texture(b"xSprite.png")
+    o_sprite = raypyc.load_texture(b"oSprite.png")
+
     net = network.Network()
     net.sendto_server(pickle.dumps([network.NetworkTypes.GET_PLAYER_TURN, ""]))
     this_start_player_turn = pickle.loads(net.recv(1024))[1]  # receive this player turn
@@ -28,6 +31,9 @@ def main():
     raypyc.set_target_fps(60)
 
     while not raypyc.window_should_close():
+        if raypyc.is_key_pressed(raypyc.KeyboardKey.KEY_R):
+            net.sendto_server(pickle.dumps([network.NetworkTypes.RESET_GAME, ""]))
+
         mouse_position = raypyc.get_mouse_position()
         over_cell = [-1, -1]  # row column
         if BOARD_START_DRAW_X < mouse_position.x <= BOARD_START_DRAW_X + TILE_WIDTH * 3 and \
@@ -60,21 +66,44 @@ def main():
 
         for i in range(3):
             for j in range(3):
-                if current_board[i][j] == -1:
-                    raypyc.draw_rectangle(BOARD_START_DRAW_X + TILE_WIDTH * j, BOARD_START_DRAW_Y + TILE_HEIGHT * i, TILE_WIDTH, TILE_HEIGHT, raypyc.GREEN)
-                elif current_board[i][j] == 1:
-                    raypyc.draw_rectangle(BOARD_START_DRAW_X + TILE_WIDTH * j, BOARD_START_DRAW_Y + TILE_HEIGHT * i, TILE_WIDTH, TILE_HEIGHT, raypyc.RED)
+                if current_board[i][j] == -1:  # x
+                    raypyc.draw_texture_pro(x_sprite,
+                                            raypyc.Rectangle(0, 0, 16, 16),
+                                            raypyc.Rectangle(BOARD_START_DRAW_X + TILE_WIDTH * j - TILE_WIDTH / 2, BOARD_START_DRAW_Y + TILE_HEIGHT * i - TILE_HEIGHT / 2, TILE_WIDTH, TILE_HEIGHT),
+                                            raypyc.Vector2(-TILE_WIDTH / 2, -TILE_HEIGHT / 2),
+                                            0,
+                                            raypyc.WHITE)
+                elif current_board[i][j] == 1:  # o
+                    raypyc.draw_texture_pro(o_sprite,
+                                            raypyc.Rectangle(0, 0, 16, 16),
+                                            raypyc.Rectangle(BOARD_START_DRAW_X + TILE_WIDTH * j - TILE_WIDTH / 2, BOARD_START_DRAW_Y + TILE_HEIGHT * i - TILE_HEIGHT / 2, TILE_WIDTH, TILE_HEIGHT),
+                                            raypyc.Vector2(-TILE_WIDTH / 2, -TILE_HEIGHT / 2),
+                                            0,
+                                            raypyc.WHITE)
 
         if current_winner == -3:
-            raypyc.clear_background(raypyc.RAYWHITE)
-            raypyc.draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, raypyc.GREEN)
+            raypyc.draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, raypyc.RAYWHITE)
+            raypyc.draw_texture_pro(x_sprite,
+                                    raypyc.Rectangle(0, 0, 16, 16),
+                                    raypyc.Rectangle(SCREEN_WIDTH / 2 - TILE_WIDTH, SCREEN_HEIGHT / 2 - TILE_HEIGHT, TILE_WIDTH * 2, TILE_HEIGHT * 2),
+                                    raypyc.Vector2(0, 0),
+                                    0,
+                                    raypyc.WHITE)
         elif current_winner == 3:
-            raypyc.clear_background(raypyc.RAYWHITE)
-            raypyc.draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, raypyc.RED)
+            raypyc.draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, raypyc.RAYWHITE)
+            raypyc.draw_texture_pro(o_sprite,
+                                    raypyc.Rectangle(0, 0, 16, 16),
+                                    raypyc.Rectangle(SCREEN_WIDTH / 2 - TILE_WIDTH, SCREEN_HEIGHT / 2 - TILE_HEIGHT, TILE_WIDTH * 2, TILE_HEIGHT * 2),
+                                    raypyc.Vector2(0, 0),
+                                    0,
+                                    raypyc.WHITE)
 
         raypyc.end_drawing()
 
     net.sendto_server(pickle.dumps([network.NetworkTypes.DISCONNECT, this_player.my_hash]))
+
+    raypyc.unload_texture(x_sprite)
+    raypyc.unload_texture(o_sprite)
     raypyc.close_window()
 
 

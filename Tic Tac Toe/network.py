@@ -16,6 +16,7 @@ class NetworkTypes(enum.IntEnum):
     BOARD = enum.auto()
     WHO_IS_WINNING = enum.auto()
     HOW_WIN = enum.auto()
+    RESET_GAME = enum.auto()
 
 
 class Network:

@@ -22,9 +22,11 @@ the NetworkType class is an enum of all the Action/Data that the Network transfo
 | GET_PLAYER_TURN | get the player turn so the client will know if he o ot x                                              |
 | TURN_X          | data of a turn. if True it is X turn if False it is O turn                                            |
 | GET_BOARD       | ask the server to return the current board                                                            |
+| RESET_GAME      | ask the server to reset the game                                                                      |
 | BOARD           | 2d list of board data                                                                                 |
 | WHO_IS_WINNING  | ask the server to return the current winner                                                           |
 | HOW_WIN         | a how win value, an integer. if 3 that means that o won, if -3 that means x won, else no one won      |
+
 
 [^note1]: we need to send this message so the server will know that this ip is connected to the game.
 

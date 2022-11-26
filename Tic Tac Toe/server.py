@@ -82,3 +82,10 @@ while True:
             server_sock.sendto(pickle.dumps([network.NetworkTypes.BOARD, board]), address)
         case network.NetworkTypes.WHO_IS_WINNING:
             server_sock.sendto(pickle.dumps([network.NetworkTypes.HOW_WIN, who_wins(board)]), address)
+        case network.NetworkTypes.RESET_GAME:
+            board = [
+                [0, 0, 0],
+                [0, 0, 0],
+                [0, 0, 0]
+            ]
+            turn_x = True
